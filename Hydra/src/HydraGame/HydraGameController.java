@@ -39,11 +39,13 @@ public class HydraGameController implements Initializable {
         hydraHeadSize.setText(Integer.toString(startingSize));
     }
     ListInterface<HydraHead> headList = null;
+    ListInterface<String> cutList = null;
 
 
     public void play() {
         message.setText("");
         headList = new AList<>();
+        cutList= new AList<>();
 
         BallPane.getChildren().removeAll(BallPane.getChildren());
         HydraHead head = makeHead(startingSize);
@@ -67,6 +69,8 @@ public class HydraGameController implements Initializable {
             HydraHead ball = (HydraHead) e.getSource();
             BallPane.getChildren().remove(ball); // remove from the screen
             headList.remove(headList.getPosition(ball)); // remove from the list
+            
+            cutList.add("chop");
 
             int s = ball.getHeadSize();
             if (s > 1) {
@@ -76,8 +80,10 @@ public class HydraGameController implements Initializable {
                 updatePane();
             }
             if (headList.getLength() == 0) {
-               message.setText("Good Job! - Play Again");
+               message.setText("Good Job! - Play Again "+cutList.getLength()+" chops have been made");
+           
             };
+            
         });
         return head;
 
